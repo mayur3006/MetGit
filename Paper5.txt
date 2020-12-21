@@ -1,0 +1,60 @@
+Q.1)
+select round(sal,-3) from emp;
+
+Q.2)
+select last_day(hiredate) from emp;
+
+Q.3)
+select to_char(sysdate,'DDTH Mon,YYYY') from dual;
+
+Q.4)
+select avg(sal) from emp
+where job='CLERK';
+
+Q.5)
+select max(sal),deptno from emp
+group by deptno;
+
+Q.6)
+select sal*12 Annual from emp;
+
+Q.7)
+select distinct job from emp;
+
+Q.8)
+select * from emp
+where ename like 'A%';
+
+Q.9)
+select a.ename EMPNAME,b.ename MGRNAME from emp a, emp b
+where a.mgr=b.empno;
+
+Q.10)
+select ename,job from emp
+where deptno=
+(select deptno from emp
+where ename='KING');
+
+plsql
+----------------------
+Q.1)
+create or replace procedure updateSal(eno number)
+as
+	salary number(6);
+	x emp%rowtype;
+Begin
+	select * into x from emp where empno=eno;
+	if x.sal<=1000 then
+		salary:=(0.25*x.sal)+x.sal;
+	elsif x.sal>1000 and x.sal<2000 then
+		salary:=(0.20*x.sal)+x.sal;
+	else
+		salary:=(0.10*x.sal)+x.sal;
+	end if;
+	dbms_output.put_line('Incremented salary : '||salary);
+	update emp set sal=salary where empno=eno;
+Exception when no_data_found then
+	dbms_output.put_line('Invalid Employee Number.');
+End;
+/
+	

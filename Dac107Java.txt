@@ -1,0 +1,137 @@
+Q.1)
+Employee.java
+----------------------
+package Exception;
+
+public class Employee {
+	private String name;
+	private String Address;
+	private int age;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String nm) throws NameException{
+		name = nm;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String add) {
+		Address = add;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int ag) {
+		age = ag;
+	}
+
+}
+AgeException.java
+--------------------
+package Exception;
+
+public class AgeException extends Exception{
+	
+}
+Test.java
+-------------------
+package Exception;
+
+public class Test {
+	public static void main(String[] args){
+		String name;
+		String Address;
+		int age;
+		name=args[0];
+		Address=args[1];
+		age=Integer.parseInt(args[2]);
+		try {
+			if(age>50) {
+				System.out.println("Age Exception");
+				throw new AgeException();
+			}
+			Employee emp = new Employee();
+			emp.setName(name);
+			emp.setAge(age);
+			emp.setAddress(Address);
+			
+			System.out.println("Employee Details:");
+			System.out.printf("Name:%s Age:%d Address:%s",emp.getName(),emp.getAge(),emp.getAddress());
+		}catch(Exception AgeException) {
+			System.out.println("Employee Age greater than 50");
+		}
+	}
+}
+Q.2)
+IPolicy.java
+----------------
+package BankPolicy;
+
+public interface IPolicy {
+	double getRate();
+}
+
+BankA.java
+-----------------
+package BankPolicy;
+
+public class BankA implements IPolicy{
+	private double rate;
+	
+	public double getRate() {
+		return rate=10;
+	}
+}
+
+BankB.java
+------------------
+package BankPolicy;
+
+public class BankB implements IPolicy{
+	private double rate;
+	
+	public double getRate() {
+		return rate=9;
+	}
+}
+
+BankC.java
+------------------
+package BankPolicy;
+
+public class BankC implements IPolicy {
+	private double rate;
+	
+	public double getRate() {
+		return rate=7;
+	}
+}
+
+SITest.java
+-------------------
+import BankPolicy.*;
+
+public class SITest {
+	private static double SI(double p,int n,IPolicy P){
+		double r=P.getRate();
+		double Si=(p*n*r)/100;
+		return Si;
+	}
+	
+	public static void main(String[] args) {
+		double amount;
+		int period;
+		amount=Double.parseDouble(args[0]);
+		period=Integer.parseInt(args[1]);
+		
+		BankA B1=new BankA();
+		BankB B2=new BankB();
+		BankC B3=new BankC();
+		
+		System.out.printf("Simple Interest for BankA:%.2f%n",SI(amount,period,B1));
+		System.out.printf("Simple Interest for BankB:%.2f%n",SI(amount,period,B2));
+		System.out.printf("Simple Interest for BankC:%.2f%n",SI(amount,period,B3));
+	}
+}
